@@ -6,10 +6,10 @@ require_once __DIR__ . '/../includes/db.php';
 
 /* ---- Ensure we have $pdo ---- */
 if (!isset($pdo) || !($pdo instanceof PDO)) {
-    $host = defined('DB_HOST') ? DB_HOST : ($DB_HOST ?? ($config['db']['host'] ?? '127.0.0.1'));
-    $name = defined('DB_NAME') ? DB_NAME : ($DB_NAME ?? ($config['db']['name'] ?? 'iswift_db'));
-    $user = defined('DB_USER') ? DB_USER : ($DB_USER ?? ($config['db']['user'] ?? 'root'));
-    $pass = defined('DB_PASS') ? DB_PASS : ($DB_PASS ?? ($config['db']['pass'] ?? ''));
+  $host = defined('DB_HOST') ? DB_HOST : ($DB_HOST ?? ($config['db']['host'] ?? '127.0.0.1'));
+  $name = defined('DB_NAME') ? DB_NAME : ($DB_NAME ?? ($config['db']['name'] ?? 'u348991914_iswift'));
+  $user = defined('DB_USER') ? DB_USER : ($DB_USER ?? ($config['db']['user'] ?? 'u348991914_iswift'));
+  $pass = defined('DB_PASS') ? DB_PASS : ($DB_PASS ?? ($config['db']['pass'] ?? 'Z@q@@Fu|fQ$3'));
     if (function_exists('db')) {
         $maybe = db();
         if ($maybe instanceof PDO) {
@@ -433,20 +433,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="grid">
                 <div>
                     <label>Existing Images</label>
-                    <div class="thumbs">
-                        <?php if (!$images): ?>
-                            <div class="muted">No images yet.</div>
-                            <?php else: foreach ($images as $img): ?>
-                                <label class="thumb">
-                                    <img src="<?= h(img_public_url($img['path'])) ?>" alt="">
-                                    <div class="muted">#<?= (int)$img['id'] ?> <?= $img['is_primary'] ? '· Primary' : '' ?></div>
-                                      <div class="row row-fit">
-                                        <div><input type="radio" name="primary_choice" value="existing_<?= (int)$img['id'] ?>" <?= $img['is_primary'] ? 'checked' : '' ?>> Primary</div>
-                                        <div><label><input type="checkbox" name="delete_image_ids[]" value="<?= (int)$img['id'] ?>"> Delete</label></div>
-                                    </div>
-                                </label>
-                        <?php endforeach;
-                        endif; ?>
+                    <div class="image-grid">
+                      <?php if (!$images): ?>
+                        <div class="muted">No images yet.</div>
+                      <?php else: foreach ($images as $img): ?>
+                        <label class="image-card">
+                          <img src="<?= h('/uploads/products/' . ltrim($img['path'], '/')) ?>"
+                               alt=""
+                               loading="lazy">
+                          <div class="meta">#<?= (int)$img['id'] ?><?= $img['is_primary'] ? ' · Primary' : '' ?></div>
+                          <div class="controls">
+                            <label><input type="radio" name="primary_choice" value="existing_<?= (int)$img['id'] ?>" <?= $img['is_primary']?'checked':'' ?>> Primary</label>
+                            <label><input type="checkbox" name="delete_image_ids[]" value="<?= (int)$img['id'] ?>"> Delete</label>
+                          </div>
+                        </label>
+                      <?php endforeach; endif; ?>
                     </div>
                 </div>
                 <div>

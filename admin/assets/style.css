@@ -442,6 +442,48 @@ th {
   color: crimson;
 }
 
+/* --- Admin product images: uniform thumbnails --- */
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+  align-items: start;
+}
+
+.image-card {
+  background: #fff;
+  border: 1px solid var(--accent-orange);
+  border-radius: 12px;
+  padding: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.image-card img {
+  width: 100%;
+  aspect-ratio: 4 / 3;      /* ensures uniform tile size */
+  object-fit: cover;        /* crops without distortion */
+  border-radius: 8px;
+  display: block;
+}
+
+.image-card .meta {
+  color: var(--text-muted);
+  font-size: 12px;
+  margin-top: 6px;
+}
+
+.image-card .controls {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px 12px;
+  align-items: center;
+  margin-top: 8px;
+}
+
+/* If you still have old .thumbs/.thumb rules, this keeps them consistent */
+.thumbs { display: contents; }      /* neutralize old flex wrapper */
+.thumb  { all: unset; }             /* clear old card styling if present */
+
 /* Utility spacing */
 .mt-6 { margin-top: 6px; }
 .mt-8 { margin-top: 8px; }

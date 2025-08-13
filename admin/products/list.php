@@ -9,9 +9,9 @@ require_once __DIR__ . '/../includes/db.php';     // may or may not set $pdo
 if (!isset($pdo) || !($pdo instanceof PDO)) {
   // Try common credential sources
   $host = defined('DB_HOST') ? DB_HOST : ($DB_HOST ?? ($config['db']['host'] ?? '127.0.0.1'));
-  $name = defined('DB_NAME') ? DB_NAME : ($DB_NAME ?? ($config['db']['name'] ?? 'iswift_db'));
-  $user = defined('DB_USER') ? DB_USER : ($DB_USER ?? ($config['db']['user'] ?? 'root'));
-  $pass = defined('DB_PASS') ? DB_PASS : ($DB_PASS ?? ($config['db']['pass'] ?? ''));
+  $name = defined('DB_NAME') ? DB_NAME : ($DB_NAME ?? ($config['db']['name'] ?? 'u348991914_iswift'));
+  $user = defined('DB_USER') ? DB_USER : ($DB_USER ?? ($config['db']['user'] ?? 'u348991914_iswift'));
+  $pass = defined('DB_PASS') ? DB_PASS : ($DB_PASS ?? ($config['db']['pass'] ?? 'Z@q@@Fu|fQ$3'));
 
   // If your db.php exposes a helper like db(), use it
   if (function_exists('db')) {
