@@ -18,16 +18,13 @@ if (!isset($_SESSION['user_id'])) {
 </head>
 <body class="sidebar-layout">
 
-<div id="nav-container"></div>
+<?php include __DIR__ . '/includes/nav.php'; ?>
 
 <!-- Main Content -->
 <div class="main-content">
   <h1>Welcome to iSwift Website Admin Section</h1>
   <p>This is the website dashboard. It allows you to manage website content, and keep it updated.</p>
 </div>
-<script>
-  const BASE_URL = "<?= $BASE_URL ?>";
-</script>
-<script src="<?= $BASE_URL ?>assets/nav.js"></script>
+<script src="<?= $BASE_URL ?>admin/assets/nav.js"></script>
 </body>
 </html>

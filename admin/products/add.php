@@ -220,44 +220,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta charset="utf-8">
   <title>Admin · Add Product</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root{ --bg:#FFF8F0; --card:#FFF1E5; --accent:#FF6F40; --accent2:#E25822; --btn:#FFB347; --btnText:#3B1F0F; --muted:#5A4033; }
-    *{box-sizing:border-box}
-    body{margin:0;background:var(--bg);font-family:Inter,system-ui,-apple-system,sans-serif;color:#1A1A1A}
-    header, .container{max-width:1200px;margin:0 auto;padding:24px}
-    h1{font-weight:700;margin:8px 0 16px}
-    h2{font-size:20px;margin:16px 0 8px;color:var(--accent2)}
-    .card{background:var(--card);border-radius:16px;padding:24px;border:1px solid var(--accent)}
-    .grid{display:grid;gap:16px}
-    @media(min-width:1000px){.grid-2{grid-template-columns:1fr 1fr}}
-    label{display:block;margin-bottom:6px;color:var(--muted);font-size:14px}
-    input[type="text"], input[type="number"], textarea, select{
-      width:100%;padding:10px 12px;border:1px solid var(--accent);border-radius:8px;background:transparent;color:var(--muted)
-    }
-    textarea{min-height:110px}
-    .btn{background:var(--btn);color:var(--btnText);padding:12px 18px;border:none;border-radius:12px;font-weight:600;cursor:pointer}
-    .btn:hover{filter:brightness(110%);transform:scale(1.01)}
-    .muted{color:var(--muted)}
-    .errors{background:#ffe6e6;border:1px solid #ff9b9b;color:#7a0000;padding:12px;border-radius:8px}
-    .success{background:#e8ffe8;border:1px solid #9bff9b;color:#0f7a3d;padding:12px;border-radius:8px}
-    .row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-    .rep{display:grid;gap:10px}
-    .rep .item{display:grid;gap:8px;background:#fff;border:1px dashed var(--accent);border-radius:12px;padding:12px}
-    .rep .actions{display:flex;gap:8px}
-    .inline{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-  </style>
+  <link rel="stylesheet" href="<?= $BASE_URL ?>admin/assets/style.css">
 </head>
-<body>
-<header>
-  <?php include __DIR__ . '/../includes/nav.php'; ?>
-  <h1>Add Product (All-in-one)</h1>
-</header>
-
-<main class="container">
+<body class="sidebar-layout">
+<?php include __DIR__ . '/../includes/nav.php'; ?>
+<div class="main-content">
+  <div class="container">
+    <h1>Add Product (All-in-one)</h1>
   <?php if ($errors): ?>
     <div class="errors">
       <strong>Fix the following:</strong>
-      <ul style="margin:8px 0 0 18px">
+      <ul>
         <?php foreach ($errors as $e): ?><li><?= h($e) ?></li><?php endforeach; ?>
       </ul>
     </div><br>
@@ -266,12 +239,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <?php if ($successId): ?>
     <div class="success">
       Product created successfully.
-      <div style="margin-top:6px">
+      <div class="mt-6">
         <a href="edit.php?id=<?= (int)$successId ?>">Edit this product</a>
         <span class="muted">·</span>
         <a href="list.php">Back to list</a>
         <span class="muted">·</span>
-        <a href="/product-details.php?slug=<?= h($slug ?? '') ?>" target="_blank">View public page</a>
+        <a href="<?= $BASE_URL ?>product-details.php?slug=<?= h($slug ?? '') ?>" target="_blank">View public page</a>
       </div>
     </div><br>
   <?php endif; ?>
@@ -326,7 +299,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       </div>
     </div>
 
-    <div class="grid" style="margin-top:16px">
+    <div class="grid mt-16">
       <div>
         <label for="short_desc">Short Description</label>
         <textarea id="short_desc" name="short_desc"><?= h($vals['short_desc']) ?></textarea>
@@ -370,7 +343,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       </div>
       <?php endfor; ?>
     </div>
-    <div class="inline" style="margin:8px 0 16px">
+    <div class="inline field-row">
       <button class="btn" type="button" onclick="addSpec()">+ Add Spec</button>
     </div>
 
@@ -385,7 +358,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       </div>
       <?php endforeach; ?>
     </div>
-    <div class="inline" style="margin:8px 0 16px">
+    <div class="inline field-row">
       <button class="btn" type="button" onclick="addFeature()">+ Add Feature</button>
     </div>
 
@@ -407,16 +380,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       </div>
       <?php endfor; ?>
     </div>
-    <div class="inline" style="margin:8px 0 16px">
+    <div class="inline field-row">
       <button class="btn" type="button" onclick="addFaq()">+ Add FAQ</button>
     </div>
 
-    <div style="margin-top:16px">
+    <div class="mt-16">
       <button class="btn" type="submit">Create Product</button>
-      <a class="muted" style="margin-left:12px" href="list.php">Cancel</a>
+      <a class="muted ml-12" href="list.php">Cancel</a>
     </div>
   </form>
-</main>
+    </div>
+  </div>
+
+<script src="<?= $BASE_URL ?>admin/assets/nav.js"></script>
 
 <script>
 function removeClosest(btn, sel){ const el = btn.closest(sel); if(el) el.remove(); }

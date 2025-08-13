@@ -18,7 +18,7 @@ if (!isset($_SESSION['user_id'])) {
 </head>
 <body class="sidebar-layout">
 
-<div id="nav-container"></div>
+<?php include __DIR__ . '/includes/nav.php'; ?>
 
 <!-- Main Content -->
 <div class="main-content">
@@ -37,9 +37,6 @@ if (!isset($_SESSION['user_id'])) {
   </form>
 </div>
 
-<script>
-  const BASE_URL = "<?= $BASE_URL ?>";
-</script>
 <script src="<?= $BASE_URL ?>admin/assets/nav.js"></script>
 </body>
 </html>

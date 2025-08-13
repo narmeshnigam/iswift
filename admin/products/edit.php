@@ -338,184 +338,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="utf-8">
     <title>Admin · Edit Product</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg: #FFF8F0;
-            --card: #FFF1E5;
-            --accent: #FF6F40;
-            --accent2: #E25822;
-            --btn: #FFB347;
-            --btnText: #3B1F0F;
-            --muted: #5A4033;
-        }
-
-        * {
-            box-sizing: border-box
-        }
-
-        body {
-            margin: 0;
-            background: var(--bg);
-            font-family: Inter, system-ui, -apple-system, sans-serif;
-            color: #1A1A1A
-        }
-
-        header,
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 24px
-        }
-
-        h1 {
-            font-weight: 700;
-            margin: 8px 0 16px
-        }
-
-        h2 {
-            font-size: 20px;
-            margin: 16px 0 8px;
-            color: var(--accent2)
-        }
-
-        .card {
-            background: var(--card);
-            border-radius: 16px;
-            padding: 24px;
-            border: 1px solid var(--accent)
-        }
-
-        .grid {
-            display: grid;
-            gap: 16px
-        }
-
-        @media(min-width:1000px) {
-            .grid-2 {
-                grid-template-columns: 1fr 1fr
-            }
-        }
-
-        label {
-            display: block;
-            margin-bottom: 6px;
-            color: var(--muted);
-            font-size: 14px
-        }
-
-        input[type="text"],
-        input[type="number"],
-        textarea,
-        select {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid var(--accent);
-            border-radius: 8px;
-            background: transparent;
-            color: var(--muted)
-        }
-
-        textarea {
-            min-height: 110px
-        }
-
-        .btn {
-            background: var(--btn);
-            color: var(--btnText);
-            padding: 12px 18px;
-            border: none;
-            border-radius: 12px;
-            font-weight: 600;
-            cursor: pointer
-        }
-
-        .btn:hover {
-            filter: brightness(110%);
-            transform: scale(1.01)
-        }
-
-        .muted {
-            color: var(--muted)
-        }
-
-        .errors {
-            background: #ffe6e6;
-            border: 1px solid #ff9b9b;
-            color: #7a0000;
-            padding: 12px;
-            border-radius: 8px
-        }
-
-        .success {
-            background: #e8ffe8;
-            border: 1px solid #9bff9b;
-            color: #0f7a3d;
-            padding: 12px;
-            border-radius: 8px
-        }
-
-        .row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px
-        }
-
-        .rep {
-            display: grid;
-            gap: 10px
-        }
-
-        .rep .item {
-            display: grid;
-            gap: 8px;
-            background: #fff;
-            border: 1px dashed var(--accent);
-            border-radius: 12px;
-            padding: 12px
-        }
-
-        .rep .actions {
-            display: flex;
-            gap: 8px
-        }
-
-        .thumbs {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap
-        }
-
-        .thumb {
-            background: #fff;
-            border: 1px solid var(--accent);
-            border-radius: 12px;
-            padding: 8px;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            align-items: flex-start
-        }
-
-        .thumb img {
-            width: 140px;
-            height: 100px;
-            object-fit: cover;
-            border-radius: 8px
-        }
-    </style>
+    <link rel="stylesheet" href="<?= $BASE_URL ?>admin/assets/style.css">
 </head>
 
-<body>
-    <header>
-        <?php include __DIR__ . '/../includes/nav.php'; ?>
+<body class="sidebar-layout">
+<?php include __DIR__ . '/../includes/nav.php'; ?>
+<div class="main-content">
+    <div class="container">
         <h1>Edit Product — <?= h($product['name']) ?></h1>
-    </header>
 
-    <main class="container">
         <?php if ($errors): ?>
             <div class="errors">
                 <strong>Fix the following:</strong>
-                <ul style="margin:8px 0 0 18px">
+                <ul>
                     <?php foreach ($errors as $e): ?><li><?= h($e) ?></li><?php endforeach; ?>
                 </ul>
             </div><br>
@@ -524,10 +359,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php if ($success): ?>
             <div class="success">
                 Saved successfully.
-                <div style="margin-top:6px">
+                <div class="mt-6">
                     <a href="list.php">Back to list</a>
                     <span class="muted">·</span>
-                    <a href="/product-details.php?slug=<?= h($product['slug']) ?>" target="_blank">View public page</a>
+                    <a href="<?= $BASE_URL ?>product-details.php?slug=<?= h($product['slug']) ?>" target="_blank">View public page</a>
                 </div>
             </div><br>
         <?php endif; ?>
@@ -582,7 +417,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             </div>
 
-            <div class="grid" style="margin-top:16px">
+              <div class="grid mt-16">
                 <div>
                     <label for="short_desc">Short Description</label>
                     <textarea id="short_desc" name="short_desc"><?= h($vals['short_desc']) ?></textarea>
@@ -605,7 +440,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <label class="thumb">
                                     <img src="<?= h(img_public_url($img['path'])) ?>" alt="">
                                     <div class="muted">#<?= (int)$img['id'] ?> <?= $img['is_primary'] ? '· Primary' : '' ?></div>
-                                    <div class="row" style="grid-template-columns:auto 1fr">
+                                      <div class="row row-fit">
                                         <div><input type="radio" name="primary_choice" value="existing_<?= (int)$img['id'] ?>" <?= $img['is_primary'] ? 'checked' : '' ?>> Primary</div>
                                         <div><label><input type="checkbox" name="delete_image_ids[]" value="<?= (int)$img['id'] ?>"> Delete</label></div>
                                     </div>
@@ -617,10 +452,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div>
                     <label for="primary_image">Upload New Primary</label>
                     <input id="primary_image" name="primary_image" type="file" accept=".jpg,.jpeg,.png,.webp">
-                    <div class="muted" style="margin-top:6px">
-                        If you want this new upload as primary, keep “Primary” set to <strong>“New primary upload”</strong> below.
-                    </div>
-                    <div style="margin-top:8px">
+                      <div class="muted mt-6">
+                          If you want this new upload as primary, keep “Primary” set to <strong>“New primary upload”</strong> below.
+                      </div>
+                      <div class="mt-8">
                         <label><input type="radio" name="primary_choice" value="new_primary"> New primary upload</label>
                         <?php if ($images): ?>
                             <div class="muted">Or pick an existing image above as primary.</div>
@@ -653,7 +488,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                 <?php endfor; ?>
             </div>
-            <div style="margin:8px 0 16px"><button class="btn" type="button" onclick="addSpec()">+ Add Spec</button></div>
+              <div class="field-row"><button class="btn" type="button" onclick="addSpec()">+ Add Spec</button></div>
 
             <!-- Features -->
             <h2>Features (Bullets)</h2>
@@ -667,7 +502,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                 <?php endforeach; ?>
             </div>
-            <div style="margin:8px 0 16px"><button class="btn" type="button" onclick="addFeature()">+ Add Feature</button></div>
+              <div class="field-row"><button class="btn" type="button" onclick="addFeature()">+ Add Feature</button></div>
 
             <!-- FAQs -->
             <h2>FAQs</h2>
@@ -688,14 +523,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                 <?php endfor; ?>
             </div>
-            <div style="margin:8px 0 16px"><button class="btn" type="button" onclick="addFaq()">+ Add FAQ</button></div>
+              <div class="field-row"><button class="btn" type="button" onclick="addFaq()">+ Add FAQ</button></div>
 
-            <div style="margin-top:16px">
-                <button class="btn" type="submit">Save Changes</button>
-                <a class="muted" style="margin-left:12px" href="list.php">Cancel</a>
-            </div>
+              <div class="mt-16">
+                  <button class="btn" type="submit">Save Changes</button>
+                  <a class="muted ml-12" href="list.php">Cancel</a>
+              </div>
         </form>
-    </main>
+    </div>
+</div>
+
+<script src="<?= $BASE_URL ?>admin/assets/nav.js"></script>
 
     <script>
         function removeClosest(btn, sel) {
