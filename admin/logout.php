@@ -1,16 +1,24 @@
 <?php
-declare(strict_types=1);
-require_once __DIR__ . '/../config.php';
-require_once __DIR__ . '/../lib/session.php';
-require_once __DIR__ . '/../lib/helpers.php';
-
-start_app_session();
-
-$_SESSION = [];
-if (ini_get('session.use_cookies')) {
-    $params = session_get_cookie_params();
-    setcookie(session_name(), '', time() - 42000, $params['path'], $params['domain'], $params['secure'], $params['httponly']);
-}
+session_start();
+session_unset();
 session_destroy();
-setcookie('remember', '', time() - 3600, '/');
-redirect('/admin/login.php');
+include __DIR__ . '/includes/config.php';
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Logged Out – iSwift ERP</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <meta http-equiv="refresh" content="2;url=<?= $BASE_URL ?>login.php">
+  <link rel="stylesheet" href="<?= $BASE_URL ?>assets/style.css">
+</head>
+<body class="logout-page">
+  <div class="logout-message">
+    <h2>You’ve been logged out</h2>
+    <p>Redirecting to login page...</p>
+  </div>
+</body>
+</html>
