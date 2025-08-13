@@ -44,154 +44,15 @@ if (!isset($pdo) || !($pdo instanceof PDO)) {
     <meta charset="utf-8">
     <title>Admin · Products</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg: #FFF8F0;
-            --card: #FFF1E5;
-            --accent: #FF6F40;
-            --accent2: #E25822;
-            --btn: #FFB347;
-            --btnText: #3B1F0F;
-            --muted: #5A4033;
-        }
-
-        * {
-            box-sizing: border-box
-        }
-
-        body {
-            margin: 0;
-            background: var(--bg);
-            font-family: Inter, system-ui, -apple-system, sans-serif;
-            color: #1A1A1A
-        }
-
-        header,
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 24px
-        }
-
-        h1 {
-            font-weight: 700;
-            margin: 8px 0 16px
-        }
-
-        .toolbar {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            align-items: center;
-            margin: 12px 0 20px
-        }
-
-        input[type="text"],
-        select {
-            padding: 10px 12px;
-            border: 1px solid var(--accent);
-            border-radius: 8px;
-            background: transparent;
-            color: var(--muted);
-        }
-
-        .btn {
-            background: var(--btn);
-            color: var(--btnText);
-            padding: 12px 18px;
-            border: none;
-            border-radius: 12px;
-            font-weight: 600;
-            cursor: pointer
-        }
-
-        .btn:hover {
-            filter: brightness(110%);
-            transform: scale(1.01)
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: var(--card);
-            border: 1px solid var(--accent)
-        }
-
-        th,
-        td {
-            padding: 12px;
-            border-top: 1px solid var(--accent)
-        }
-
-        th {
-            background: var(--card);
-            color: var(--accent2);
-            text-align: left
-        }
-
-        a {
-            color: #FF6F40;
-            text-decoration: none
-        }
-
-        a:hover {
-            text-decoration: underline
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 999px;
-            font-size: 12px;
-            border: 1px solid var(--accent)
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: 1fr auto auto;
-            gap: 12px
-        }
-
-        .pagination {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-            margin: 16px 0
-        }
-
-        .pagination a,
-        .pagination span {
-            padding: 6px 10px;
-            border: 1px solid var(--accent);
-            border-radius: 8px;
-            background: #fff1e5;
-            color: #5A4033;
-            text-decoration: none
-        }
-
-        .pagination .current {
-            background: var(--btn);
-            color: var(--btnText);
-            border-color: var(--btn)
-        }
-
-        .right {
-            justify-self: end
-        }
-
-        .muted {
-            color: var(--muted)
-        }
-    </style>
+    <link rel="stylesheet" href="<?= $BASE_URL ?>admin/assets/style.css">
 </head>
 
-<body>
-    <header>
-        <?php include __DIR__ . '/../includes/nav.php'; ?>
+<body class="sidebar-layout">
+<?php include __DIR__ . '/../includes/nav.php'; ?>
+<div class="main-content">
+    <div class="container">
         <h1>Products</h1>
-    </header>
 
-    <main class="container">
         <?php
         // 2) Inputs (sanitized)
         $q       = isset($_GET['q']) ? trim($_GET['q']) : '';
@@ -263,16 +124,16 @@ if (!isset($pdo) || !($pdo instanceof PDO)) {
         ?>
 
         <!-- 6) Toolbar -->
-        <form class="grid toolbar" method="get">
+        <form class="filter-bar" method="get">
             <div>
-                <input type="text" name="q" value="<?= htmlspecialchars($q) ?>" placeholder="Search by name, SKU, meta title">
-                <select name="status">
+                <input class="search-input" type="text" name="q" value="<?= htmlspecialchars($q) ?>" placeholder="Search by name, SKU, meta title">
+                <select class="filter-select" name="status">
                     <option value="">All statuses</option>
                     <option value="draft" <?= $status === 'draft' ? 'selected' : '' ?>>Draft</option>
                     <option value="published" <?= $status === 'published' ? 'selected' : '' ?>>Published</option>
                     <option value="archived" <?= $status === 'archived' ? 'selected' : '' ?>>Archived</option>
                 </select>
-                <select name="per">
+                <select class="filter-select" name="per">
                     <?php foreach ([10, 20, 30, 50] as $n): ?>
                         <option value="<?= $n ?>" <?= $perPage === $n ? 'selected' : '' ?>><?= $n ?>/page</option>
                     <?php endforeach; ?>
@@ -335,7 +196,7 @@ if (!isset($pdo) || !($pdo instanceof PDO)) {
                             <td>
                                 <a href="edit.php?slug=<?= urldecode($r['slug']) ?>">Edit</a>
                                 <!-- You can add a View link for the public page if you want: -->
-                                <!-- <span class="muted">·</span> <a href="/product-details.php?slug=<?= urlencode($r['slug']) ?>" target="_blank">View</a> -->
+                                <!-- <span class="muted">·</span> <a href="<?= $BASE_URL ?>product-details.php?slug=<?= urlencode($r['slug']) ?>" target="_blank">View</a> -->
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -357,7 +218,10 @@ if (!isset($pdo) || !($pdo instanceof PDO)) {
         <?php endif; ?>
 
         <p class="muted">Found <?= $total ?> result(s).</p>
-    </main>
-</body>
+    </div>
+</div>
 
+<script src="<?= $BASE_URL ?>admin/assets/nav.js"></script>
+
+</body>
 </html>
